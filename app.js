@@ -45,7 +45,7 @@ const swaggerUi = require("swagger-ui-express");
 const yaml = require("yamljs");
 const swaggerDocument = yaml.load("./swagger.yaml");
 
-app.get('/',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
+app.use('/',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 // routes
 app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/jobs',authenticateUser,jobsRouter);
