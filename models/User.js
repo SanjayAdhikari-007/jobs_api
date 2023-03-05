@@ -32,14 +32,12 @@ UserSchema.pre('save',async function(){
     const salt = await bcrypt.genSalt(10);
     // Here this points to document.
     this.password = await bcrypt.hash(this.password,salt);
-    console.log(this.password);
 });
 
 UserSchema.methods.createJWT = function(){
     const token =  jwt.sign({userId:this._id, username:this.name},process.env.SECRET_KEY,{
         expiresIn:process.env.TOKEN_EXPIRES_IN
     });
-    console.log("Token is ",token);
     return token;
 };
 

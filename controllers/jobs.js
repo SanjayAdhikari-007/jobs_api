@@ -9,7 +9,6 @@ const getAllJobs = async (req,res)=>{
 }
 const getOneJob = async (req,res)=>{
     const {user:{userId},params:{id:jobId}} = req;
-    console.log(req.params);
     const job = await Job.findOne({"createdBy":userId,"_id":jobId});
     if(job){
      return res.status(StatusCodes.OK).json(job);  
@@ -32,9 +31,6 @@ const deleteJob = async (req,res)=>{
 }
 const updateJob = async (req,res)=>{
     const {user:{userId},params:{id:jobId},body:{company,position}} = req;
-    // if(company == "" || position == ""){
-    //     throw new BadRequestError("Company or position field is required.");
-    // }
     const job = await Job.findOneAndUpdate({"createdBy":userId,"_id":jobId},req.body,{new:true,runValidators:true});
     if(job){
      return res.status(StatusCodes.OK).json({job,msg:"Job Updated"});  
