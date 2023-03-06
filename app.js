@@ -28,15 +28,15 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 app.set('trust proxy',1);
 // 
 
-
+app.use(express.static("./public"));
 app.use(express.json());
 // extra packages
 app.use(helmet());
 app.use(cors());
 app.use(xss());
 app.use(rateLimiter({
-  windowMs: 1* 60 * 1000,
-  max: 60,
+  windowMs: 15* 60 * 1000,
+  max: 120,
 }));
 
 
@@ -45,7 +45,10 @@ const swaggerUi = require("swagger-ui-express");
 const yaml = require("yamljs");
 const swaggerDocument = yaml.load("./swagger.yaml");
 
-app.use('/',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
+app.get('/',(req,res)=>{
+  res.status(200).sendFile(__dirname + "/public/home.html");
+});
+app.use('/docs',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 // routes
 app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/jobs',authenticateUser,jobsRouter);
