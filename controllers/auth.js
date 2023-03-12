@@ -19,8 +19,9 @@ const login = async (req,res)=>{
         throw new UnauthenticatedError(`Wrong password for email:${email}`);
     }
     const token = user.createJWT();
+     // token,user:{name: user.name}
     res.status(StatusCodes.OK).json({
-        token,user:{name: user.name}
+        token
     });
 }
 
@@ -29,7 +30,7 @@ const register = async (req,res)=>{
         ...req.body
     });
     const token = user.createJWT();
-    res.status(StatusCodes.CREATED).json({token,user:{name:user.name}});
+    res.status(StatusCodes.CREATED).json({token});
 }
 
 module.exports={
